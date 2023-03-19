@@ -1,2 +1,9 @@
 *.env
 *.gitkeep
+*.o
+*.so
+*.log
+*.test
+*.vscode
+DOTS.*.py
+
