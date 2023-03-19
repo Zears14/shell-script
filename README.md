@@ -17,6 +17,6 @@ Please click on the name of the easter egg for more information
 ### - [Doughnut](https://github.com/Zears14/shell-script/blob/main/script/egg/Easter_Egg.md#doughnut)
 
 ## About Using and License
-You are free to use this as you wish as long it follow the [License](https://github.com/Zears14/shell-script/blob/main/LICENSE) LGPL-2.0
+You are free to use this as you wish as long it follow the [License](https://github.com/Zears14/shell-script/blob/main/LICENSE) LGPL-2.1
 
 
