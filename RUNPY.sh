@@ -9,6 +9,8 @@ log_file="$log_directory/RUNPY_$current_time.log"
 # Create log directory if it doesn't exist
 mkdir -p $log_directory
 
+DOUGHNUT_FLAG="--doughnut"
+
 # Function to log messages
 log() {
     timestamp=$(date +"%Y-%m-%d %H:%M:%S")
@@ -17,6 +19,14 @@ log() {
     code="$3"
     echo "[$timestamp][$type][$code] $message" >> $log_file
 }
+
+# Check for the hamburger flag and execute the hamburger script if present
+if [[ "$1" == "$DOUGHNUT_FLAG" ]]; then
+  log "INFO" "100" "RUNPY script started"
+  $HOME/.egg/donut
+  log "INFO" "300" "RUNPY script ended"
+  exit 0
+fi
 
 # Log script start
 log "RUNPY script started" "INFO" "100"
