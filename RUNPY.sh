@@ -2,6 +2,24 @@
 
 # Specify the directory to search for the file
 directory="/data/data/com.termux/files/home/.pysc"
+log_directory="/data/data/com.termux/files/home/.shlog"
+current_time=$(date +"%Y-%m-%d_%H-%M-%S")
+log_file="$log_directory/RUNPY_$current_time.log"
+
+# Create log directory if it doesn't exist
+mkdir -p $log_directory
+
+# Function to log messages
+log() {
+    timestamp=$(date +"%Y-%m-%d %H:%M:%S")
+    message="$1"
+    type="$2"
+    code="$3"
+    echo "[$timestamp][$type][$code] $message" >> $log_file
+}
+
+# Log script start
+log "RUNPY script started" "INFO" "100"
 
 while true; do
   # List all the scripts
@@ -15,7 +33,8 @@ while true; do
   # Check if filename is empty and restart the script
   if [[ -z $filename ]]; then
     clear
-    echo "Error: filename cannot be empty. Please try again."
+    echo "Filename is empty. Please try again"
+    log "Filename is empty. Please try again." "ERROR" "101"
     continue
   fi
 
@@ -24,7 +43,8 @@ while true; do
 
   if [[ ${#matches[@]} -eq 0 ]]; then
     clear
-    echo "Error: file does not exist: $filename"
+    echo "File does not exit: $filename"
+    log "File does not exist: $filename" "ERROR" "102"
     continue
   elif [[ ${#matches[@]} -gt 1 ]]; then
     # Prompt the user to choose from multiple matches
@@ -41,7 +61,8 @@ while true; do
     read choice
     if ! [[ "$choice" =~ ^[0-9]+$ ]] || (( choice < 1 || choice > ${#matches[@]} )); then
       clear
-      echo "Error: invalid choice. Please try again."
+      echo "Invalid Choice. Please try again"
+      log "Invalid choice. Please try again." "ERROR" "103"
       continue
     fi
     filename="${matches[choice]}"
@@ -53,8 +74,15 @@ while true; do
   #DEBUG
   # echo "Chosen file: $filename"
 
+  # Run the chosen script and log the result
   clear
   python3 "$filename"
+  exit_code=$?
+  if [[ $exit_code -eq 0 ]]; then
+    log "Script successfully executed: $filename" "INFO" "200"
+  else
+    log "Script failed with exit code $exit_code: $filename" "ERROR" "201"
+  fi
 
   # Prompt the user to run another script or exit
   while true; do
@@ -62,10 +90,11 @@ while true; do
     read choice
     case $choice in
       [Yy]* ) clear; break;;
-      [Nn]* ) exit;;
+      [Nn]* ) log "RUNPY script ended" "INFO" "300"; exit;;
       * ) echo "\nPlease answer y or n.";;
 
     esac
     clear
   done
 done
+
