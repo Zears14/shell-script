@@ -11,5 +11,6 @@
   - Update all packages in termux
 
 ## 2. List of all the easter egg
+Please click on the name of the easter egg for more information
 
-## (Doughnut)[]
+### - [Doughnut](https://github.com/Zears14/shell-script/blob/main/script/egg/Easter_Egg.md#doughnut)
